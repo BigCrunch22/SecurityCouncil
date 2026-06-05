@@ -403,7 +403,7 @@ public class SecurityCouncilScript : MonoBehaviour
 			switch (FlagsImages[z].sprite.name)
 			{
 				case "Australia":
-					if (ConvertedText[0].ToString().ToUpper() == ConvertedText[ConvertedText.Length - 1].ToString().ToUpper())
+					if (Attacks[ActualStage-1][0].ToString().ToUpper() == Attacks[ActualStage-1][Attacks[ActualStage-1].Length - 1].ToString().ToUpper())
 					{
 						ScoreJudge++;
 						Judgement.Add("Australia");
