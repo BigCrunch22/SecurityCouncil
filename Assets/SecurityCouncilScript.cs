@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using KModkit;
@@ -328,6 +330,7 @@ public class SecurityCouncilScript : MonoBehaviour
 		ScoreJudge = 0;
 		bool NoneApplied = true;
 		List<string> Judgement = new List<string>();
+		string ConvertedText = RemoveDiacritics(Attacks[ActualStage-1]);
 		
 		//China
 		if (Int32.Parse(StageNumber.text) % 5 == Bomb.GetBatteryCount())
@@ -342,7 +345,7 @@ public class SecurityCouncilScript : MonoBehaviour
 		char[] ToCompare = {'S', 'R', 'E'};
 		for (int x = 0; x < ToCompare.Length; x++)
 		{
-			if (Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == ToCompare[x]) > 0)
+			if (ConvertedText.ToUpper().ToCharArray().Count(c => c == ToCompare[x]) > 0)
 			{
 				FranceValue++;
 				continue;
@@ -358,7 +361,7 @@ public class SecurityCouncilScript : MonoBehaviour
 		
 		bool IrelandIsCheck = true;
 		//UK
-		string[] Mechanon = Attacks[ActualStage-1].Split(' ');
+		string[] Mechanon = ConvertedText.Split(' ');
 		if (Mechanon.Length == 2)
 		{
 			NoneApplied = false;
@@ -400,7 +403,7 @@ public class SecurityCouncilScript : MonoBehaviour
 			switch (FlagsImages[z].sprite.name)
 			{
 				case "Australia":
-					if (Attacks[ActualStage-1][0].ToString().ToUpper() == Attacks[ActualStage-1][Attacks[ActualStage-1].Length - 1].ToString().ToUpper())
+					if (ConvertedText[0].ToString().ToUpper() == ConvertedText[ConvertedText.Length - 1].ToString().ToUpper())
 					{
 						ScoreJudge++;
 						Judgement.Add("Australia");
@@ -409,11 +412,11 @@ public class SecurityCouncilScript : MonoBehaviour
 				case "Barbados":
 					string Basis = "";
 					int BasisToBeAdd = 0;
-					for (int x = 0; x < Attacks[ActualStage-1].Length; x++)
+					for (int x = 0; x < ConvertedText.Length; x++)
 					{
-						if (Attacks[ActualStage-1][x].ToString().ToUpper().EqualsAny(Alphabet))
+						if (ConvertedText[x].ToString().ToUpper().EqualsAny(Alphabet))
 						{
-							Basis = Attacks[ActualStage-1][x].ToString().ToUpper();
+							Basis = ConvertedText[x].ToString().ToUpper();
 							break;
 						}
 					}
@@ -431,9 +434,9 @@ public class SecurityCouncilScript : MonoBehaviour
 					break;
 				case "Cote d'Ivoire":
 					int TenNumbers = 0;
-					for (int x = 0; x < Attacks[ActualStage-1].Length; x++)
+					for (int x = 0; x < ConvertedText.Length; x++)
 					{
-						if (Attacks[ActualStage-1][x].ToString().ToUpper().EqualsAny(Alphabet))
+						if (ConvertedText[x].ToString().ToUpper().EqualsAny(Alphabet))
 						{
 							TenNumbers++;
 						}
@@ -450,7 +453,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					char[] ToSearch = {'Z', 'Q', 'X', 'J', 'V', 'K'};
 					for (int x = 0; x < ToSearch.Length; x++)
 					{
-						if (Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == ToSearch[x]) > 0)
+						if (ConvertedText.ToUpper().ToCharArray().Count(c => c == ToSearch[x]) > 0)
 						{
 							ScoreJudge++;
 							Judgement.Add("Canada");
@@ -460,9 +463,9 @@ public class SecurityCouncilScript : MonoBehaviour
 					break;
 				case "Colombia":
 					int NumberJudge = 0;
-					for (int x = 0; x < Attacks[ActualStage-1].Length; x++)
+					for (int x = 0; x < ConvertedText.Length; x++)
 					{
-						if (Attacks[ActualStage-1][x].ToString().ToUpper().EqualsAny(Alphabet))
+						if (ConvertedText[x].ToString().ToUpper().EqualsAny(Alphabet))
 						{
 							NumberJudge++;
 						}
@@ -475,14 +478,14 @@ public class SecurityCouncilScript : MonoBehaviour
 					break;
 				case "Ecuador":
 					string[] ValidModules = {"Wire Sequence", "Wires", "Who's on First", "Simon Says", "Password", "Morse Code", "Memory", "Maze", "Keypad", "Complicated Wires", "The Button"};
-					if (Attacks[ActualStage-1].EqualsAny(ValidModules) || Attacks[ActualStage-1].ToUpper().Split(' ')[0] == "NOT")
+					if (ConvertedText.EqualsAny(ValidModules) || ConvertedText.ToUpper().Split(' ')[0] == "NOT")
 					{
 						ScoreJudge++;
 						Judgement.Add("Ecuador");
 					}
 					break;
 				case "Fiji":
-					if (Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == 'A') == 0)
+					if (ConvertedText.ToUpper().ToCharArray().Count(c => c == 'A') == 0)
 					{
 						ScoreJudge++;
 						Judgement.Add("Fiji");
@@ -492,7 +495,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					char[] Vowels = {'A', 'E', 'I', 'O', 'U'};
 					for (int x = 0; x < Vowels.Length; x++)
 					{
-						if (Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == Vowels[x]) > 1)
+						if (ConvertedText.ToUpper().ToCharArray().Count(c => c == Vowels[x]) > 1)
 						{
 							break;
 						}
@@ -512,7 +515,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					}
 					break;
 				case "Jamaica":
-					if (Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == 'E') == 0)
+					if (ConvertedText.ToUpper().ToCharArray().Count(c => c == 'E') == 0)
 					{
 						ScoreJudge++;
 						Judgement.Add("Jamaica");
@@ -526,7 +529,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					}
 					break;
 				case "Liberia":
-					string[] ToCycle = Attacks[ActualStage-1].ToUpper().Split(' ');
+					string[] ToCycle = ConvertedText.ToUpper().Split(' ');
 					for (int x = 0; x < ToCycle.Length; x++)
 					{
 						if (Regex.IsMatch(ToCycle[x], "SIMON") || Regex.IsMatch(ToCycle[x], "MORSE"))
@@ -539,9 +542,9 @@ public class SecurityCouncilScript : MonoBehaviour
 					break;
 				case "Malaysia":
 					int CheckIn = 0;
-					for (int x = 0; x < Attacks[ActualStage-1].Length; x++)
+					for (int x = 0; x < ConvertedText.Length; x++)
 					{
-						if (Attacks[ActualStage-1][x].ToString().ToUpper().EqualsAny(Alphabet))
+						if (ConvertedText[x].ToString().ToUpper().EqualsAny(Alphabet))
 						{
 							CheckIn++;
 						}
@@ -561,7 +564,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					}
 					break;
 				case "New Zealand":
-					if (Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == 'I') == 0)
+					if (ConvertedText.ToUpper().ToCharArray().Count(c => c == 'I') == 0)
 					{
 						ScoreJudge++;
 						Judgement.Add("New Zealand");
@@ -579,7 +582,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					char[] AnotherVowels = {'A', 'E', 'I', 'O', 'U'};
 					for (int x = 0; x < AnotherVowels.Length; x++)
 					{
-						Count += Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == AnotherVowels[x]);
+						Count += ConvertedText.ToUpper().ToCharArray().Count(c => c == AnotherVowels[x]);
 					}
 					
 					if (Count != 0 && Int32.Parse(StageNumber.text) % Count == 0)
@@ -589,7 +592,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					}
 					break;
 				case "Senegal":
-					string[] ToHell = Attacks[ActualStage-1].ToUpper().Split(' ');
+					string[] ToHell = ConvertedText.ToUpper().Split(' ');
 					for (int x = 0; x < ToHell.Length; x++)
 					{
 						if (Regex.IsMatch(ToHell[x], "BUTTON") || Regex.IsMatch(ToHell[x], "WIRE"))
@@ -609,9 +612,9 @@ public class SecurityCouncilScript : MonoBehaviour
 					break;
 				case "Tunisia":
 					int Checkout = 0;
-					for (int x = 0; x < Attacks[ActualStage-1].Length; x++)
+					for (int x = 0; x < ConvertedText.Length; x++)
 					{
-						if (Attacks[ActualStage-1][x].ToString().ToUpper().EqualsAny(Alphabet))
+						if (ConvertedText[x].ToString().ToUpper().EqualsAny(Alphabet))
 						{
 							Checkout++;
 						}
@@ -630,7 +633,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					}
 					break;
 				case "Ukraine":
-					string[] Chicken = Attacks[ActualStage-1].ToUpper().Split(' ');
+					string[] Chicken = ConvertedText.ToUpper().Split(' ');
 					for (int x = 0; x < Chicken.Length; x++)
 					{
 						if (Regex.IsMatch(Chicken[x], "CIPHER"))
@@ -646,7 +649,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					char[] AppleCore = AppleSeed.ToCharArray();
 					for (int x = 0; x < AppleCore.Length; x++)
 					{
-						if (Attacks[ActualStage-1].ToUpper().ToCharArray().Count(c => c == AppleCore[x]) > 2)
+						if (ConvertedText.ToUpper().ToCharArray().Count(c => c == AppleCore[x]) > 2)
 						{
 							ScoreJudge++;
 							Judgement.Add("Uruguay");
@@ -662,7 +665,7 @@ public class SecurityCouncilScript : MonoBehaviour
 					}
 					break;
 				case "Zimbabwe":
-					string[] Pheonix = Attacks[ActualStage-1].ToUpper().Split(' ');
+					string[] Pheonix = ConvertedText.ToUpper().Split(' ');
 					for (int x = 0; x < Pheonix.Length; x++)
 					{
 						if (Regex.IsMatch(Pheonix[x], "MAZE"))
@@ -763,6 +766,26 @@ public class SecurityCouncilScript : MonoBehaviour
         var list1 = Bomb.GetSolvedModuleNames().Where(a => !IgnoredModules.Contains(a));
         return list1.Count() >= Attacks.Count();
     }
+	
+	string RemoveDiacritics(string text)
+	{
+		if (string.IsNullOrEmpty(text) || text.Trim().Length == 0)
+			return text;
+
+		string normalizedString = text.Normalize(NormalizationForm.FormD);
+		
+		var stringBuilder = new StringBuilder(capacity: normalizedString.Length);
+
+		foreach (char c in normalizedString)
+		{
+			if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+			{
+				stringBuilder.Append(c);
+			}
+		}
+
+		return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+	}
 	
 	//twitch plays
     #pragma warning disable 414
